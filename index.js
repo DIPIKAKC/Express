@@ -38,13 +38,28 @@ console.log(some)
 
 //axios
 import axios from "axios";
-const m = axios.get('http://jsonplaceholder.typicode.com/users');
-m.then((res) => {
-    console.log(res.data)
-}).catch((err) => {
-    console.log(err)
-})
-console.log(m)
+// const m = axios.get('http://jsonplaceholder.typicode.com/users');
+// m.then((res) => {
+//     console.log(res.data)
+// }).catch((err) => {
+//     console.log(err)
+// })
+// console.log(m)
+
+//try catch
+const m2 = async (req, res) => {
+    try {
+        const res = await axios.get("http://jsonplaceholder.typicode.com/users")
+        console.log(res.data)
+    } catch (error) {
+        console.log(error)
+    }
+}
+m2()
+
+
+
+
 
 //modules
 import os from "os";
