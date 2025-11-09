@@ -48,4 +48,7 @@ console.log(m)
 
 //modules
 import os from "os";
+import fs from "fs";
+import path from "path";
+
 console.log(os.machine())
