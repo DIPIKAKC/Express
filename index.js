@@ -49,8 +49,8 @@ import axios from "axios";
 //try catch
 const m2 = async (req, res) => {
     try {
-        const res = await axios.get("http://jsonplaceholder.typicode.com/users")
-        console.log(res.data)
+        const data = await axios.get("http://jsonplaceholder.typicode.com/users")
+        console.log(data)
     } catch (error) {
         console.log(error)
     }
