@@ -46,7 +46,7 @@ import axios from "axios";
 // })
 // console.log(m)
 
-//try catch
+//try-catch
 const m2 = async (req, res) => {
     try {
         const data = await axios.get("http://jsonplaceholder.typicode.com/users")
@@ -55,7 +55,7 @@ const m2 = async (req, res) => {
         console.log(error)
     }
 }
-m2()
+// m2()
 
 
 
@@ -67,3 +67,36 @@ import fs from "fs";
 import path from "path";
 
 console.log(os.machine())
+
+
+//importing
+import { dipika } from "./data.js";
+console.log(dipika);
+
+
+//callback function
+const greet = () => {
+    console.log('hello jee')
+}
+
+const func = (func) => {
+    func();
+}
+func(greet); //greet is callback- it is called after the func function
+
+
+
+//file module
+//sync
+console.log('before file1')
+const file1 = fs.readFileSync('./sample.txt','utf8'); //encoding=binary to normal ext
+console.log(file1)
+console.log('after file1')
+
+//async
+console.log('before file2')
+const file2 = fs.readFile('./sample.txt','utf8',(err,data)=>{
+console.log('file2:',err)
+});
+console.log(file1)
+console.log('after file2')

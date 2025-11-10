@@ -1,0 +1,1 @@
+export const dipika=90;
