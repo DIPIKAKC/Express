@@ -87,6 +87,8 @@ func(greet); //greet is callback- it is called after the func function
 
 
 //file module
+
+//READ
 //sync
 console.log('before file1')
 const file1 = fs.readFileSync('./sample.txt','utf8'); //encoding=binary to normal ext
@@ -97,6 +99,36 @@ console.log('after file1')
 console.log('before file2')
 const file2 = fs.readFile('./sample.txt','utf8',(err,data)=>{
 console.log('file2:',err)
+console.log('file2 data:',data)
 });
-console.log(file1)
+console.log(file2)
 console.log('after file2')
+
+//WRITE
+fs.writeFile('./newfile1.txt','hi dipika byeee','utf-8',(err)=>{
+    console.log('if error:',err)
+})
+
+//APPEND
+fs.appendFile('./newfile1.txt',"   i must be at last as i am APPENDED",'utf-8',(err)=>{
+})
+
+//DELETE
+fs.unlink('./sample.txt',(err)=>{
+})
+
+// //SEE if a file is present
+if(fs.existsSync('./sample.txt')){
+    fs.unlink('./sample.txt',(err)=>{
+        console.log(err)
+    })
+}else{
+    fs.writeFile('./sample.txt','created','utf-8',(err)=>{   })
+}
+
+
+//create folder
+fs.mkdir('./uploads',(err)=>{})
+
+//remove folder
+fs.rmdir('./uploads',(err)=>{})
