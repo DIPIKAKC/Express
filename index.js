@@ -26,9 +26,9 @@ app.get('/', (req, res) => {
 
 //Users get, post, delete, idfetch, update
 app.get('/users', (req, res) => {
-    const data = fs.readFileSync('./data.json','utf-8')
+    const data = fs.readFileSync('./data.json', 'utf-8')
     console.log(data)
-    return res.status(200).json({ status: 'success', data:JSON.parse(data) }) //json parse because paila data string ma aaucha ani teslai object ma convert gareko
+    return res.status(200).json({ status: 'success', data: JSON.parse(data) }) //json parse because paila data string ma aaucha ani teslai object ma convert gareko
 })
 app.get('/users/:id', (req, res) => {
     const { id } = req.params;
@@ -45,3 +45,36 @@ app.listen(port, () => {
     console.log(`Server is running on port ${port}`)
     console.log(`Click to navigate: http://localhost:${port}`)
 })
+
+
+//middleware- function that comes between response and request
+//checks request data, if not valid error response, if valid redirects to particular route
+const getWork = (req,res) =>{
+    return res.status(200).json({data:'got middleware function to work'})
+}
+
+app.use((req, res, next) => {
+    const {a}=req.query;
+    if (a*1) {     
+        next();
+        console.log('middleware',a)
+    } else {
+        return res.status(400).json({
+            status:'error',
+            message:'ERROR!!! middleware function. no query params on request'
+        })
+    }
+})
+
+//as it is after the middleware fxn, it only works if the middleware logic is satisfied when request made
+app.route('/api/middlewarework').get(getWork)
+
+//This is the middileware that is used to access the incoming request in the format we need
+//eg:req.body
+app.use(express.json());
+
+const postWork = (req,res) =>{
+    console.log(req.body)
+    return res.status(200).json({data:'express.json worked'})
+}
+app.route('/api/middlewarework').post(postWork)
