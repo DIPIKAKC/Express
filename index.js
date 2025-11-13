@@ -1,5 +1,6 @@
 import express from 'express'
 import fs from "fs"
+import { notAllowed } from './utils/notAlllowed.js';
 
 const app = express();
 const port = 5000;
@@ -67,9 +68,10 @@ app.use((req, res, next) => {
 })
 
 //as it is after the middleware fxn, it only works if the middleware logic is satisfied when request made
-app.route('/api/middlewarework').get(getWork)
+app.route('/api/middlewarework').get(getWork).all(notAllowed)
 
-//This is the middileware that is used to access the incoming request in the format we need
+//This is the middileware that is used to automtically access and understand the incoming request/JSON  in the format we need i.e. JSobject
+//always on top 
 //eg:req.body
 app.use(express.json());
 
@@ -77,4 +79,4 @@ const postWork = (req,res) =>{
     console.log(req.body)
     return res.status(200).json({data:'express.json worked'})
 }
-app.route('/api/middlewarework').post(postWork)
+app.route('/api/middlewarework').post(postWork).all(notAllowed)
