@@ -1,8 +1,11 @@
 import express from 'express'
 import fs from "fs"
 import { notAllowed } from './utils/notAlllowed.js';
+import { createProduct } from './controllers/productController.js';
+import router from './routes/productRoutes.js';
 
 const app = express();
+
 const port = 5000;
 
 //server run and listening
@@ -10,7 +13,8 @@ const port = 5000;
 //middleware
 
 
-// APP.GET(path if.e. baseurl,k garne)
+// APP.GET(path i.e. baseurl,k garne)
+//req-res callback
 app.get('/', (req, res) => {
 
     //accessing query params
@@ -48,26 +52,26 @@ app.listen(port, () => {
 })
 
 
-//middleware- function that comes between response and request
+//middleware- function that comes between response and request, incoming reqest lai filter garna use huncha middleware
 //checks request data, if not valid error response, if valid redirects to particular route
 const getWork = (req,res) =>{
     return res.status(200).json({data:'got middleware function to work'})
 }
 
-app.use((req, res, next) => {
-    const {a}=req.query;
-    if (a*1) {     
-        next();
-        console.log('middleware',a)
-    } else {
-        return res.status(400).json({
-            status:'error',
-            message:'ERROR!!! middleware function. no query params on request'
-        })
-    }
-})
+// app.use((req, res, next) => {
+//     const {a}=req.query;
+//     if (a*1) {     
+//         next();
+//         console.log('middleware',a)
+//     } else {
+//         return res.status(400).json({
+//             status:'error',
+//             message:'ERROR!!! middleware function. no query params on request'
+//         })
+//     }
+// })
 
-//as it is after the middleware fxn, it only works if the middleware logic is satisfied when request made
+//as route is defined after the middleware fxn, it only works if the middleware logic is satisfied when request made
 app.route('/api/middlewarework').get(getWork).all(notAllowed)
 
 //This is the middileware that is used to automtically access and understand the incoming request/JSON  in the format we need i.e. JSobject
@@ -79,4 +83,8 @@ const postWork = (req,res) =>{
     console.log(req.body)
     return res.status(200).json({data:'express.json worked'})
 }
-app.route('/api/middlewarework').post(postWork).all(notAllowed)
+app.route('/api/middlewarework').post(postWork).all(notAllowed) //all(notallowed) le chai function ma/ route ma diyeko method bahek aru lai block garcha
+
+
+//from routes
+app.use(router);
