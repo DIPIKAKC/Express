@@ -1,3 +1,5 @@
+import Product from "../models/Product.js"
+
 export const getProducts = (req, res) => {
     return res.status(200).json({
         status: 'success',
@@ -5,11 +7,22 @@ export const getProducts = (req, res) => {
     })
 }
 
-export const createProduct = (req, res) => {
+export const createProduct = async (req, res) => {
     const { title } = req.body;
-    console.log(title);
-    return res.status(200).json({
-        status: "success",
-        data: title
-    })
+    try {
+        const newProduct = await Product.create({
+            title
+        })
+        return res.status(200).json({
+            status: "success",
+            data: 'product successfully created',
+            newProduct
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: "error",
+            data: error
+        })
+
+    }
 }

@@ -1,13 +1,23 @@
 import express from 'express'
 import fs from "fs"
+import mongoose from 'mongoose';
 import { notAllowed } from './utils/notAlllowed.js';
 import { createProduct } from './controllers/productController.js';
-import router from './routes/productRoutes.js';
+import productRouter from './routes/productRoutes.js';
+import userRouter from './routes/userRoutes.js'
 
 const app = express();
 
 const port = 5000;
 
+//mongoose isa mode js libraray
+//mongo model interacts with db which then interacts with server
+mongoose.connect().then((val) => {
+    app.listen(port, () => {
+        console.log(`Server is running on port ${port}`)
+        console.log(`Click to navigate: http://localhost:${port}`)
+    })
+})
 //server run and listening
 //api
 //middleware
@@ -46,16 +56,16 @@ app.get('/users/:id', (req, res) => {
 
 // APP.LISTEN(port, hostname,backlog)
 //req k aayo bhanera check garna 'listen'. so we can send the response accordingly
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`)
-    console.log(`Click to navigate: http://localhost:${port}`)
-})
+// app.listen(port, () => {
+//     console.log(`Server is running on port ${port}`)
+//     console.log(`Click to navigate: http://localhost:${port}`)
+// })
 
 
 //middleware- function that comes between response and request, incoming reqest lai filter garna use huncha middleware
 //checks request data, if not valid error response, if valid redirects to particular route
-const getWork = (req,res) =>{
-    return res.status(200).json({data:'got middleware function to work'})
+const getWork = (req, res) => {
+    return res.status(200).json({ data: 'got middleware function to work' })
 }
 
 // app.use((req, res, next) => {
@@ -79,12 +89,13 @@ app.route('/api/middlewarework').get(getWork).all(notAllowed)
 //eg:req.body
 app.use(express.json());
 
-const postWork = (req,res) =>{
+const postWork = (req, res) => {
     console.log(req.body)
-    return res.status(200).json({data:'express.json worked'})
+    return res.status(200).json({ data: 'express.json worked' })
 }
 app.route('/api/middlewarework').post(postWork).all(notAllowed) //all(notallowed) le chai function ma/ route ma diyeko method bahek aru lai block garcha
 
 
 //from routes
-app.use(router);
+app.use(productRouter);
+app.use(userRouter);
